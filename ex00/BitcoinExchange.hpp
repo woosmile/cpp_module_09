@@ -16,7 +16,7 @@ class BitcoinExchange
 	private:
 		std::map<std::string, double>data;
 		bool setData();
-		bool checkDate(const std::string year, const std::string month, const std::string day) const;
+		bool checkDate(const std::string first, const std::string year, const std::string month, const std::string day) const;
 		bool checkInputKeyType(const std::string ymd, const int mode) const;
 		bool checkInputKey(const std::string first) const;
 		bool checkInputValueType(const std::string second) const;

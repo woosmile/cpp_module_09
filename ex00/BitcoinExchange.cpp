@@ -110,11 +110,51 @@ void	BitcoinExchange::exchange(const char *input_file_name)
 	}
 }
 
-bool BitcoinExchange::checkDate(const std::string year, const std::string month, const std::string day) const
+bool BitcoinExchange::checkDate(const std::string first, const std::string year, const std::string month, const std::string day) const
 {
+	if (first < (this->data.begin()->first) || first > "2099-12-31")
+		return (true);
+
 	long year_l = strtol(year.c_str(), NULL, 10);
 	long month_l = strtol(month.c_str(), NULL, 10);
 	long day_l = strtol(day.c_str(), NULL, 10);
+
+	if (month_l == 1 || month_l == 3 || month_l == 5 || month_l == 7 || month_l == 8 || month_l == 10 || month_l == 12)
+	{
+		if (day_l > 31)
+			return (true);
+	}
+	else if (month_l == 4 || month_l == 6 || month_l == 9 || month_l == 11)
+	{
+		if (day_l > 30)
+			return (true);
+
+	}
+	else if (month_l == 2)
+	{
+		if (year_l % 4 == 0)
+		{
+			if (year_l % 100 != 0)
+			{
+				if (day_l > 29)
+					return (true);
+			}
+			else
+			{
+				if (year_l % 400 == 0)
+				{
+					if (day_l > 29)
+						return (true);
+				}
+			}
+		}
+		else
+		{
+			if (day_l > 28)
+				return (true);
+		}
+	}
+	return (false);
 }
 
 bool BitcoinExchange::checkInputKeyType(const std::string ymd, const int mode) const
@@ -168,9 +208,7 @@ bool BitcoinExchange::checkInputKey(const std::string first) const
 
 	if (checkInputKeyType(year, YEAR) || checkInputKeyType(month, MONTH) || checkInputKeyType(day, DAY))
 		return (true);
-	if (first < (this->data.begin()->first) || first > "2099-12-31")
-		return (true);
-	if (checkDate(year, month, day))
+	if (checkDate(first, year, month, day))
 		return (true);
 	return (false);
 }
