@@ -216,7 +216,7 @@ bool BitcoinExchange::checkInputKey(const std::string first) const
 bool BitcoinExchange::checkInputValueType(const std::string second) const
 {
 	bool dot_flag = 0;
-	bool neg_flag = 0;
+	bool sign_flag = 0;
 
 	for (unsigned int i = 0; i < second.length(); i++)
 	{
@@ -229,12 +229,12 @@ bool BitcoinExchange::checkInputValueType(const std::string second) const
 				else
 					dot_flag = 1;
 			}
-			else if (second.at(i) == '-')
+			else if (second.at(i) == '-' || second.at(i) == '+')
 			{
-				if (neg_flag == 1)
+				if (sign_flag == 1)
 					return (true);
 				else
-					neg_flag = 1;
+					sign_flag = 1;
 			}
 			else
 				return (true);
