@@ -9,13 +9,13 @@ class RPN
 {
 	private:
 		std::stack<int>basket;
-		bool checkArgument(const char *argv) const;
+		bool checkArgument(char **argv) const;
 	public:
 		RPN();
 		RPN(const RPN& other);
 		RPN& operator=(const RPN& other);
 		~RPN();
-		void calculate(const char *argv);
+		void calculate(char **argv);
 };
 
 #endif

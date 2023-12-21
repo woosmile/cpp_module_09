@@ -21,37 +21,41 @@ RPN::~RPN()
 {
 }
 
-bool	RPN::checkArgument(const char *argv) const
+bool	RPN::checkArgument(char **argv) const
 {
 	std::istringstream	line;
 	std::string			element;
+	unsigned int		i = 1;
 
-	line.str(argv);
-
-	while (!line.eof())
+	while (argv[i] != NULL)
 	{
-		std::getline(line, element, ' ');
-		if (!element.empty())
+		line.clear();
+		line.str(argv[i]);
+		while (!line.eof())
 		{
-			if (element.size() > 1)
+			std::getline(line, element, ' ');
+			if (!element.empty())
 			{
-				std::cout << "Error" << std::endl;
-				return (true);
-			}
-			else if (!((element.at(0) >= '0' && element.at(0) <= '9') \
-					|| element.at(0) == '+' || element.at(0) == '-' \
-					|| element.at(0) == '/' || element.at(0) == '*'))
-			{
-				std::cout << "Error" << std::endl;
-				return (true);	
+				if (element.size() > 1)
+				{
+					std::cout << "Error" << std::endl;
+					return (true);
+				}
+				else if (!((element.at(0) >= '0' && element.at(0) <= '9') \
+						|| element.at(0) == '+' || element.at(0) == '-' \
+						|| element.at(0) == '/' || element.at(0) == '*'))
+				{
+					std::cout << "Error" << std::endl;
+					return (true);	
+				}
 			}
 		}
-
+		i++;
 	}
 	return (false);
 }
 
-void	RPN::calculate(const char *argv)
+void	RPN::calculate(char **argv)
 {
 	if (checkArgument(argv))
 		return ;
@@ -61,75 +65,81 @@ void	RPN::calculate(const char *argv)
 	std::istringstream	element_stream;
 	int					element_integer;
 	int					num_temp;
+	unsigned int		i = 1;
 
-	line.str(argv);
-
-	while (!line.eof())
+	while (argv[i] != NULL)
 	{
-		std::getline(line, element, ' ');
-		if (!element.empty())
+		line.clear();
+		line.str(argv[i]);
+
+		while (!line.eof())
 		{
-			if (element.at(0) >= '0' && element.at(0) <= '9')
+			std::getline(line, element, ' ');
+			if (!element.empty())
 			{
-				element_stream.clear();
-				element_stream.str(element);
-				element_stream >> element_integer;
-				basket.push(element_integer);
-			}
-			else
-			{
-				if (basket.size() < 2)
+				if (element.at(0) >= '0' && element.at(0) <= '9')
 				{
-					std::cout << "Error" << std::endl;
-					return ;
+					element_stream.clear();
+					element_stream.str(element);
+					element_stream >> element_integer;
+					basket.push(element_integer);
 				}
-				switch (element.at(0))
+				else
 				{
-					case '+':
-					{
-						num_temp = basket.top();
-						basket.pop();
-						num_temp = basket.top() + num_temp;
-						basket.pop();
-						break;
-					}
-					case '-':
-					{
-						num_temp = basket.top();
-						basket.pop();
-						num_temp = basket.top() - num_temp;
-						basket.pop();
-						break;
-					}
-					case '/':
-					{
-						num_temp = basket.top();
-						if (num_temp == 0)
-						{
-							std::cout << "Error" << std::endl;
-							return ;
-						}
-						basket.pop();
-						num_temp = basket.top() / num_temp;
-						basket.pop();
-						break;
-					}
-					case '*':
-					{
-						num_temp = basket.top();
-						basket.pop();
-						num_temp = basket.top() * num_temp;
-						basket.pop();
-						break;
-					}
-					default:
+					if (basket.size() < 2)
 					{
 						std::cout << "Error" << std::endl;
+						return ;
 					}
+					switch (element.at(0))
+					{
+						case '+':
+						{
+							num_temp = basket.top();
+							basket.pop();
+							num_temp = basket.top() + num_temp;
+							basket.pop();
+							break;
+						}
+						case '-':
+						{
+							num_temp = basket.top();
+							basket.pop();
+							num_temp = basket.top() - num_temp;
+							basket.pop();
+							break;
+						}
+						case '/':
+						{
+							num_temp = basket.top();
+							if (num_temp == 0)
+							{
+								std::cout << "Error" << std::endl;
+								return ;
+							}
+							basket.pop();
+							num_temp = basket.top() / num_temp;
+							basket.pop();
+							break;
+						}
+						case '*':
+						{
+							num_temp = basket.top();
+							basket.pop();
+							num_temp = basket.top() * num_temp;
+							basket.pop();
+							break;
+						}
+						default:
+						{
+							std::cout << "Error" << std::endl;
+						}
+					}
+					basket.push(num_temp);
 				}
-				basket.push(num_temp);
 			}
 		}
+		i++;
 	}
 	if (basket.size() == 1)
 	{
