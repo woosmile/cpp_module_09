@@ -20,7 +20,10 @@ class PmergeMe
 		bool checkArgument(char **argv);
 		void displayVectorElements();
 		void displayTimeInterval(clock_t start, int select);
-		void sort();
+		void mergeInsertionSort(std::vector<int> main_chain);
+		void binarySearch(std::vector<int> pending_chain);
+		void jacobsthalIndex(std::vector<int> &jacob, std::vector<int> pending_chain);
+
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe& other);
