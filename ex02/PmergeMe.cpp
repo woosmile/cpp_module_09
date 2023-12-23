@@ -163,7 +163,7 @@ void	PmergeMe::binarySearch(std::vector<int> pending_chain)
 	{
 
 		low = 0;
-		high = jacob[i] + count - 1;
+		high = (jacob[i] - 1) + count - 1;
 		mid = (low + high) / 2;
 		while ()
 		{
