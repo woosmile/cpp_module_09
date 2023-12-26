@@ -115,11 +115,13 @@ void	PmergeMe::jacobsthalIndex(std::vector<int> &jacob, std::vector<int> pending
 {
 	std::vector<int> jacob_origin;
 
-	if (this->vec.size() == 1)
+	if (pending_chain.size() == 1)
 	{
 		jacob.push_back(1);
+		if (pending_chain.size() > 1)
+			jacob.push_back(2);
 	}
-	else if (this->vec.size() == 2)
+	else if (pending_chain.size() == 2)
 	{
 		jacob.push_back(1);
 		jacob.push_back(2);
@@ -128,7 +130,7 @@ void	PmergeMe::jacobsthalIndex(std::vector<int> &jacob, std::vector<int> pending
 	{
 		jacob_origin.push_back(0);
 		jacob_origin.push_back(1);
-		for (unsigned int i = 2; static_cast<size_t>(*jacob_origin.rbegin()) <= this->vec.size(); i++)
+		for (unsigned int i = 2; static_cast<size_t>(*jacob_origin.rbegin()) <= pending_chain.size(); i++)
 		{
 			jacob_origin.push_back(jacob_origin[i - 1] + (2 * jacob_origin[i - 2]));
 		}
@@ -151,25 +153,39 @@ void	PmergeMe::jacobsthalIndex(std::vector<int> &jacob, std::vector<int> pending
 //원소 접근 순서 및 자기 인덱스 + 추가된 개수 - 1 의 공식으로 end 지점을 정해서 탐색 및 삽입 진행하기
 void	PmergeMe::binarySearch(std::vector<int> pending_chain)
 {
-	std::vector<int>	jacob;
+	std::vector<int>	jacobIndex;
 	unsigned int		count = 0;
-	int					low;
-	int					mid;
-	int					high;
+	int					low = 0;
+	int					mid = 0;
+	int					high = 0;
 
-	jacobsthalIndex(jacob, pending_chain);
-	//이진탐색 만들기
-	for (unsigned int i = 0; i < jacob.size(); i++)
+	jacobsthalIndex(jacobIndex, pending_chain);
+	for (unsigned int i = 0; i < jacobIndex.size(); i++)
 	{
-
 		low = 0;
-		high = (jacob[i] - 1) + count - 1;
-		mid = (low + high) / 2;
-		while ()
+		mid = 0;
+		high = (jacobIndex[i] - 1) + count - 1;
+		while (low <= high)
 		{
-
+			mid = (low + high) / 2;
+			if (this->vec[mid] > pending_chain[jacobIndex[i] - 1])
+			{
+				high = mid - 1;
+			}
+			else
+			{
+				low = mid + 1;
+			}
 		}
-		
+		if ((this->vec[mid] > pending_chain[jacobIndex[i] - 1]))
+		{
+			this->vec.insert(this->vec.begin() + mid, pending_chain[jacobIndex[i] - 1]);
+			count++;
+		}
+		else
+		{
+			this->vec.insert(this->vec.begin() + mid + 1, pending_chain[jacobIndex[i] - 1]);
+		}
 	}
 }
 
@@ -179,6 +195,7 @@ void	PmergeMe::mergeInsertionSort(std::vector<int> main_chain)
 	std::vector<int>	new_main_chain;
 	bool				even_odd;
 	int					temp;
+
 
 	if (main_chain.size() == 1)
 	{
@@ -222,6 +239,9 @@ void	PmergeMe::fordJohnson(char **argv)
 	clock_t	start = clock();
 	mergeInsertionSort(this->vec);
 	displayTimeInterval(start, VECTOR);
+	std::cout << "After:  ";
+	displayVectorElements();
+
 
 	// std::cout << "After:  ";
 	// displayVectorElements();

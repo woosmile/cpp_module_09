@@ -8,6 +8,7 @@
 # include <cerrno>
 # include <limits>
 # include <ctime>
+# include <cstdlib>
 
 # define VECTOR 0
 # define DEQUE 1
