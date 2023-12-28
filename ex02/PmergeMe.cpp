@@ -29,9 +29,9 @@ void	PmergeMe::getTimeInterval(clock_t start, int select)
 	clock_t end = clock();
 
 	if (select == VECTOR)
-		vec_interval_time = (end - start) / (CLOCKS_PER_SEC / 1000000);
+		vec_interval_time = (end - start) / (CLOCKS_PER_SEC / TIME_UNIT);
 	else if (select == DEQUE)
-		deq_interval_time = (end - start) / (CLOCKS_PER_SEC / 1000000);
+		deq_interval_time = (end - start) / (CLOCKS_PER_SEC / TIME_UNIT);
 }
 
 bool	PmergeMe::checkArgument(char **argv)

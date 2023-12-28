@@ -14,13 +14,15 @@
 # define VECTOR 0
 # define DEQUE 1
 
+# define TIME_UNIT 1000000
+
 class PmergeMe
 {
 	private:
 		std::vector<int>vec;
 		std::deque<int>deq;
-		clock_t vec_interval_time;
-		clock_t deq_interval_time;
+		double vec_interval_time;
+		double deq_interval_time;
 		bool checkArgument(char **argv);
 		void displayElementsVector();
 		void getTimeInterval(clock_t start, int select);
