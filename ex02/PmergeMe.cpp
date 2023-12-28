@@ -28,10 +28,18 @@ void	PmergeMe::getTimeInterval(clock_t start, int select)
 {
 	clock_t end = clock();
 
+	std::cout << "clock per sec : " << CLOCKS_PER_SEC << std::endl;
+
 	if (select == VECTOR)
-		vec_interval_time = (end - start) / (CLOCKS_PER_SEC / TIME_UNIT);
+	{
+		vec_interval_time = end - start;
+		vec_interval_time = vec_interval_time / (CLOCKS_PER_SEC / TIME_UNIT);
+	}
 	else if (select == DEQUE)
-		deq_interval_time = (end - start) / (CLOCKS_PER_SEC / TIME_UNIT);
+	{
+		deq_interval_time = end - start;
+		deq_interval_time = deq_interval_time / (CLOCKS_PER_SEC / TIME_UNIT);
+	}
 }
 
 bool	PmergeMe::checkArgument(char **argv)
