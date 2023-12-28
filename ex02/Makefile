@@ -1,6 +1,6 @@
 NAME = PmergeMe
 
-CXXFLAGS = -Werror -Wall -Wextra -std=c++98 -g
+CXXFLAGS = -Werror -Wall -Wextra -std=c++98
 
 RM = rm
 RMFLAGS = -rf
