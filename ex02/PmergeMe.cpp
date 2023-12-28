@@ -28,8 +28,6 @@ void	PmergeMe::getTimeInterval(clock_t start, int select)
 {
 	clock_t end = clock();
 
-	std::cout << "clock per sec : " << CLOCKS_PER_SEC << std::endl;
-
 	if (select == VECTOR)
 	{
 		vec_interval_time = end - start;
@@ -113,6 +111,15 @@ bool	PmergeMe::checkArgument(char **argv)
 void PmergeMe::displayElementsVector()
 {
 	for (std::vector<int>::iterator it = this->vec.begin(); it != this->vec.end(); it++)
+	{
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+}
+
+void PmergeMe::displayElementsDeque()
+{
+	for (std::deque<int>::iterator it = this->deq.begin(); it != this->deq.end(); it++)
 	{
 		std::cout << *it << " ";
 	}
@@ -475,8 +482,10 @@ void	PmergeMe::fordJohnson(char **argv)
 	mergeDeque(this->deq, 1);
 	getTimeInterval(start, DEQUE);
 
-	std::cout << "After:  ";
+	std::cout << "After(std::[vector]): ";
 	displayElementsVector();
+	std::cout << "After(std::[deque]):  ";
+	displayElementsDeque();
 
 	std::cout << "Time to process a range of " << this->vec.size() << " elements with std::[vector] : " << vec_interval_time << " us" << std::endl;
 	std::cout << "Time to process a range of " << this->deq.size() << " elements with std::[deque]  : " << deq_interval_time << " us" << std::endl;

@@ -25,6 +25,7 @@ class PmergeMe
 		double deq_interval_time;
 		bool checkArgument(char **argv);
 		void displayElementsVector();
+		void displayElementsDeque();
 		void getTimeInterval(clock_t start, int select);
 		void mergeVector(std::vector<int> main_chain, unsigned int depth);
 		void chainDivideVector(std::vector<int> chain, std::vector<int> even_odd_chain, unsigned int depth);
