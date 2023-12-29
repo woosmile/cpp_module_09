@@ -36,17 +36,28 @@ bool	RPN::checkArgument(char **argv) const
 			std::getline(line, element, ' ');
 			if (!element.empty())
 			{
-				if (element.size() > 1)
+				if (element.size() > 2)
 				{
 					std::cout << "Error" << std::endl;
 					return (true);
 				}
-				else if (!((element.at(0) >= '0' && element.at(0) <= '9') \
+				else if (element.size() == 2)
+				{
+					if (element.at(0) != '+' || !(element.at(1) >= '0' && element.at(1) <= '9'))
+					{
+						std::cout << "Error" << std::endl;
+						return (true);
+					}
+				}
+				else
+				{
+					if (!((element.at(0) >= '0' && element.at(0) <= '9') \
 						|| element.at(0) == '+' || element.at(0) == '-' \
 						|| element.at(0) == '/' || element.at(0) == '*'))
-				{
-					std::cout << "Error" << std::endl;
-					return (true);	
+					{
+						std::cout << "Error" << std::endl;
+						return (true);	
+					}
 				}
 			}
 		}
@@ -77,7 +88,14 @@ void	RPN::calculate(char **argv)
 			std::getline(line, element, ' ');
 			if (!element.empty())
 			{
-				if (element.at(0) >= '0' && element.at(0) <= '9')
+				if (element.size() == 1 && (element.at(0) >= '0' && element.at(0) <= '9'))
+				{
+					element_stream.clear();
+					element_stream.str(element);
+					element_stream >> element_integer;
+					basket.push(element_integer);
+				}
+				else if (element.size() == 2 && (element.at(1) >= '0' && element.at(1) <= '9'))
 				{
 					element_stream.clear();
 					element_stream.str(element);
