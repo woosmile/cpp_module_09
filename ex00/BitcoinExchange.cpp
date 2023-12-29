@@ -97,10 +97,13 @@ void	BitcoinExchange::exchange(const char *input_file_name)
 			std::getline(check_stream, second);
 			if (second.size() > 2)
 			{
-				second.erase(0, 2);
-				check_stream.clear();
-				check_stream.str(second);
-				check_stream >> second_value;
+				if (second.at(0) == '|' && second.at(1) == ' ')
+				{
+					second.erase(0, 2);
+					check_stream.clear();
+					check_stream.str(second);
+					check_stream >> second_value;
+				}
 			}
 			if (!checkInputValue(second, second_value))
 				std::cout << first << " => " << second_value << " = " << exchangeCalculator(first, second_value) << std::endl;
