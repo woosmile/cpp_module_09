@@ -133,8 +133,6 @@ void	PmergeMe::jacobsthalIndexVector(std::vector<int> &jacob, std::vector< std::
 	if (sub_chain.size() == 1)
 	{
 		jacob.push_back(1);
-		if (sub_chain.size() > 1)
-			jacob.push_back(2);
 	}
 	else if (sub_chain.size() == 2)
 	{
